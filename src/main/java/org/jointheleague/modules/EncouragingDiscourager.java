@@ -12,28 +12,13 @@ public class EncouragingDiscourager extends CustomMessageCreateListener{
 
 	@Override
 	public void handle(MessageCreateEvent event) throws APIException {
-		int happiness = 0;
-		String s = event.getMessageContent();
-		if (s.contains("happy")) happiness++;
-		if (s.toLowerCase().contains("life is amazing")) happiness++;
-		if (s.toLowerCase().contains("its a good day")) happiness++;
-		if (s.toLowerCase().contains("i suck")) happiness--;
-		if (s.toLowerCase().contains("i am horrible")) happiness--;
-		if (s.toLowerCase().contains("life is good")) happiness++;
-		
-		if (happiness > 0)
+		if (event.getMessageContent().contains("my life is amazing"))
 		{
-			//good mood
 			event.getChannel().sendMessage("You are a bad person. You should be sad");
 		}
-		else if (happiness == 0)
+		else if (event.getMessageContent().contains("life sucks"))
 		{
-			//ok mood
-		}
-		else
-		{
-			//bad mood
-			event.getChannel().sendMessage("You should be happy because you are a good person. But not great");
+			event.getChannel().sendMessage("You should be feeling great because you are a good person. But not great");
 		}
 	}
 	
