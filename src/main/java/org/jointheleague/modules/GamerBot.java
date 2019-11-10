@@ -20,15 +20,22 @@ public class GamerBot extends CustomMessageCreateListener{
 	private String C2, C2D;
 	private String C3, C3D;
 	private String C4, C4D;
+	private String C5, C5D;
+	private String C6, C6D;
 	//Other
 	private ArrayList<String> GamerGIFs = new ArrayList<String>();
+	private ArrayList<String> LoseCompliments = new ArrayList<String>();
+	private ArrayList<String> WinCompliments = new ArrayList<String>();
+	
 	public GamerBot(String channelName) {
 		super(channelName);
 		HC = "!help";
 		C1 = "!Top10";
 		C2 = "!RecentGamingNews";
 		C3 = "!GamerGIF";
-		C4 = "!";
+		C4 = "!LoseGameCompliment";
+		C5 = "!WinGameCompliment";
+		C6 = "!GetOGGames";
 		// TODO Auto-generated constructor stub
 	}
 	@Override
@@ -51,6 +58,12 @@ public class GamerBot extends CustomMessageCreateListener{
 		if (event.getMessageContent().equals(C3)) {
 			event.getChannel().sendMessage(getRandomGIF());
 		}
+		if (event.getMessageContent().equals(C4)) {
+			event.getChannel().sendMessage(getLoseCompliment());
+		}
+		if (event.getMessageContent().equals(C5)) {
+			event.getChannel().sendMessage(getWinCompliment());
+		}
 	}
 	public String getRandomGIF() {
 		GamerGIFs.add("http://giphygifs.s3.amazonaws.com/media/eJAgh7EA5PUic/giphy.gif");
@@ -66,14 +79,40 @@ public class GamerBot extends CustomMessageCreateListener{
 		GamerGIFs.add("https://i.giphy.com/media/M7Bb92XyvQuA/giphy.webp");
 		return GamerGIFs.get((int)(Math.random()*GamerGIFs.size()));
 	}
+	public String getLoseCompliment() {
+		LoseCompliments.add("At least you tried...");
+		LoseCompliments.add("Stop wasting calories on this game, you deserve more");
+		LoseCompliments.add("I'm sure it was a great game");
+		LoseCompliments.add("You may have lost this battle, but you will win the war.");
+		LoseCompliments.add("It's just a game, you'll be fine");
+		LoseCompliments.add("Good Game");
+		LoseCompliments.add("You will get better");
+		LoseCompliments.add("You will get more opportunities");
+		LoseCompliments.add("The enemies probably hacked or cheated");
+		return LoseCompliments.get((int)(Math.random()*LoseCompliments.size()));
+	}
+	public String getWinCompliment() {
+		WinCompliments.add("Nice Job");
+		WinCompliments.add("Your victory is a result of your skill");
+		WinCompliments.add("Good Game");
+		WinCompliments.add("I guess you're good");
+		WinCompliments.add("The next game will be as victorious");
+		return WinCompliments.get((int)(Math.random()*WinCompliments.size()));
+	}
 	public String getCommandsDescriptions() {
 		String helpString = "";
 		C1D = " -> This returns 10 games on steam with the most current players";
 		C2D = " -> This returns the current news going on in the video game world";
 		C3D = " -> This returns a random gaming related GIF";
+		C4D = " -> this returns a compliment if you just lost a game";
+		C5D = " -> This returns a compliment if you just won a game";
+		C6D = " -> This returns the top 10 OG games (This may be biased and can vary with person)";
 		helpString += C1 + C1D + "\n" +
 					  C2 + C2D + "\n" +
-					  C3 + C3D + "\n";
+					  C3 + C3D + "\n" +
+					  C4 + C4D + "\n" +
+					  C5 + C5D + "\n" +
+					  C6 + C6D + "\n";
 		return helpString;
 	}
 	public String getSteamStats() { //!GetTop10
@@ -120,5 +159,28 @@ public class GamerBot extends CustomMessageCreateListener{
 			returnString += "\n";
 		}
 		return returnString;
+	}
+	public String getOGGames() {
+		URL ogURL;
+		String html = "";
+		try {
+			ogURL = new URL("https://www.businessinsider.com/top-50-video-games-all-time-ranked-2016-12#3-pokmon-franchise-48");
+			URLConnection ogCon = ogURL.openConnection();
+			InputStream is = ogCon.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			String line = null;
+			line = br.readLine();
+			while (line != null) {
+				html += line;
+				line = br.readLine();
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return html;
 	}
 }
