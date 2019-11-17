@@ -35,7 +35,7 @@ public class GamerBot extends CustomMessageCreateListener{
 		C3 = "!GamerGIF";
 		C4 = "!LoseGameCompliment";
 		C5 = "!WinGameCompliment";
-		C6 = "!GetOGGames";
+		C6 = "!ImportantEvents";
 		// TODO Auto-generated constructor stub
 	}
 	@Override
@@ -63,6 +63,9 @@ public class GamerBot extends CustomMessageCreateListener{
 		}
 		if (event.getMessageContent().equals(C5)) {
 			event.getChannel().sendMessage(getWinCompliment());
+		}
+		if (event.getMessageContent().equals(C6)) {
+			event.getChannel().sendMessage(getEvents());
 		}
 	}
 	public String getRandomGIF() {
@@ -101,18 +104,18 @@ public class GamerBot extends CustomMessageCreateListener{
 	}
 	public String getCommandsDescriptions() {
 		String helpString = "";
-		C1D = " -> This returns 10 games on steam with the most current players";
+		C1D = " -> This returns 10 games on steam charts with the most current players";
 		C2D = " -> This returns the current news going on in the video game world";
 		C3D = " -> This returns a random gaming related GIF";
 		C4D = " -> this returns a compliment if you just lost a game";
 		C5D = " -> This returns a compliment if you just won a game";
-		C6D = " -> This returns the top 10 OG games (This may be biased and can vary with person)";
+		C6D = " -> This returns important gaming related events";
 		helpString += C1 + C1D + "\n" +
 					  C2 + C2D + "\n" +
 					  C3 + C3D + "\n" +
 					  C4 + C4D + "\n" +
 					  C5 + C5D + "\n" +
-					  C6 + C6D + "\n";
+					  C6 + C6D;
 		return helpString;
 	}
 	public String getSteamStats() { //!GetTop10
@@ -160,18 +163,20 @@ public class GamerBot extends CustomMessageCreateListener{
 		}
 		return returnString;
 	}
-	public String getOGGames() {
-		URL ogURL;
-		String html = "";
+	public String getEvents() { //!ImportantEvents
+		ArrayList<String> evs = new ArrayList<String>();
+		URL events;
 		try {
-			ogURL = new URL("https://www.businessinsider.com/top-50-video-games-all-time-ranked-2016-12#3-pokmon-franchise-48");
-			URLConnection ogCon = ogURL.openConnection();
-			InputStream is = ogCon.getInputStream();
+			events = new URL("https://www.digitaltrends.com/gaming/2018-game-conventions-events-calendar/");
+			URLConnection con = events.openConnection();
+			InputStream is = con.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line = null;
 			line = br.readLine();
 			while (line != null) {
-				html += line;
+				if (line.contains("noopener") && line.contains("</a>") && !line.contains("Plus") && !line.contains("li id")) {
+					evs.add(line);
+				}
 				line = br.readLine();
 			}
 		} catch (MalformedURLException e) {
@@ -181,6 +186,22 @@ public class GamerBot extends CustomMessageCreateListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return html;
+		String returnString = "";
+		boolean atArrow = false;
+		for (int i = 0; i < evs.size(); i++) {
+			for (int j = 4; j < evs.get(i).length(); j++) {
+				if (evs.get(i).charAt(j - 1) == '>') {
+					atArrow = true;
+				}
+				if (evs.get(i).charAt(j) == '<') {
+					atArrow = false;
+				}
+				if (atArrow) {
+					returnString += evs.get(i).charAt(j);
+				}
+			}
+			returnString += "\n";
+		}
+		return returnString;
 	}
 }
