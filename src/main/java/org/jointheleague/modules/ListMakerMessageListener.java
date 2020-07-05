@@ -14,10 +14,10 @@ import net.aksingh.owmjapis.api.APIException;
 
 public class ListMakerMessageListener extends CustomMessageCreateListener{
 
-	final String Show_List_Command = "!ShowList";
-	final String Remove_Command = "!removeFromList";
-	final String Add_Command = "!addToList";
-	final String Commands = "!commands";
+	static final String Show_List_Command = "!ShowList";
+	static final String Remove_Command = "!removeFromList";
+	static final String Add_Command = "!addToList";
+	static final String Commands = "!commands";
 	
 	public ListMakerMessageListener(String channelName) {
 		super(channelName);
@@ -28,15 +28,19 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 	public void handle(MessageCreateEvent event) throws APIException {
 		if (event.getMessageContent().equals(Show_List_Command)) {
 			HandleShowList(event);
+			event.getChannel().sendMessage("test1");
 		}else if (event.getMessageContent().equals(Remove_Command)) {
 			HandleRemove(event);
+			event.getChannel().sendMessage("test2");
 		}else if (event.getMessageContent().equals(Add_Command)) {
 			HandleAdd(event);
+			event.getChannel().sendMessage("test3");
 		}else if (event.getMessageContent().equals(Commands)) {
 			event.getChannel().sendMessage("The commands are:\n" + 
 					Show_List_Command + ":Shows the created list \n" +
 					Remove_Command + ":Removes task from top of the list \n" + 
 					Add_Command + ":Adds typed string to bottom of the list");
+			
 		}
 	}
 
@@ -50,6 +54,7 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 	
 	}
 		
+	event.getChannel().sendMessage("Item added");
 	}
 
 	private void HandleRemove(MessageCreateEvent event) {
