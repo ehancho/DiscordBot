@@ -28,13 +28,14 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 	public void handle(MessageCreateEvent event) throws APIException {
 		if (event.getMessageContent().equals(Show_List_Command)) {
 			HandleShowList(event);
-			event.getChannel().sendMessage("test1");
+			
 		}else if (event.getMessageContent().equals(Remove_Command)) {
 			HandleRemove(event);
-			event.getChannel().sendMessage("test2");
+		
 		}else if (event.getMessageContent().equals(Add_Command)) {
-			HandleAdd(event);
-			event.getChannel().sendMessage("test3");
+			String test = event.getMessageContent().substring(11);
+			HandleAdd(test, event);
+			
 		}else if (event.getMessageContent().equals(Commands)) {
 			event.getChannel().sendMessage("The commands are:\n" + 
 					Show_List_Command + ":Shows the created list \n" +
@@ -44,9 +45,9 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 		}
 	}
 
-	private void HandleAdd(MessageCreateEvent event) {
+	private void HandleAdd(String test, MessageCreateEvent event) {
 	try {
-		String test = event.getMessageContent().substring(11);
+		
 		FileWriter fw = new FileWriter("src/main/java/org.jointheleague.modules/list.txt");
 		fw.write(test + "\n");
 		fw.close();
@@ -61,7 +62,7 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 		try {
 			String remove = event.getMessageContent().substring(15);
 			BufferedReader read = new BufferedReader(new FileReader("src/main/java/org.jointheleague.modules/list.txt"));
-			FileWriter write = new FileWriter("src/main/java/org.jointheleague.modules/temp.txt", true);
+			FileWriter write = new FileWriter("src/main/java/org.jointheleague.modules/temp.txt");
 			String line = read.readLine();
 			while (line!=null && remove != line) {
 				write.write(line + "\n");
@@ -80,10 +81,10 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 			String test = "";
 			BufferedReader br = new BufferedReader(new FileReader("src/main/java/org.jointheleague.modules/list.txt"));
 			String stuff = br.readLine();
-			//while (stuff!=null) {
-			//test += br.readLine()+ "\n";
-			//}
-		event.getChannel().sendMessage("src/main/java/org.jointheleague.modules/list.txt");
+			while (stuff!=null) {
+			test += br.readLine()+ "\n";
+			}
+		event.getChannel().sendMessage(test);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
