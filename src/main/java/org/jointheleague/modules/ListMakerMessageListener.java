@@ -29,11 +29,11 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 		if (event.getMessageContent().equals(Show_List_Command)) {
 			HandleShowList(event);
 			
-		}else if (event.getMessageContent().equals(Remove_Command)) {
+		}else if (event.getMessageContent().contains(Remove_Command)) {
 			HandleRemove(event);
 		
-		}else if (event.getMessageContent().equals(Add_Command)) {
-			String test = event.getMessageContent().substring(11);
+		}else if (event.getMessageContent().contains(Add_Command)) {
+			String test = event.getMessageContent().substring(10);
 			HandleAdd(test, event);
 			
 		}else if (event.getMessageContent().equals(Commands)) {
@@ -48,7 +48,7 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 	private void HandleAdd(String test, MessageCreateEvent event) {
 	try {
 		
-		FileWriter fw = new FileWriter("src/main/java/org.jointheleague.modules/list.txt");
+		FileWriter fw = new FileWriter("src/main/java/org.jointheleague.modules/list.txt", true);
 		fw.write(test + "\n");
 		fw.close();
 	} catch (Exception e) {
@@ -61,8 +61,8 @@ public class ListMakerMessageListener extends CustomMessageCreateListener{
 	private void HandleRemove(MessageCreateEvent event) {
 		try {
 			String remove = event.getMessageContent().substring(15);
+			FileWriter write = new FileWriter("src/main/java/org.jointheleague.modules/temp.txt", true);
 			BufferedReader read = new BufferedReader(new FileReader("src/main/java/org.jointheleague.modules/list.txt"));
-			FileWriter write = new FileWriter("src/main/java/org.jointheleague.modules/temp.txt");
 			String line = read.readLine();
 			while (line!=null && remove != line) {
 				write.write(line + "\n");

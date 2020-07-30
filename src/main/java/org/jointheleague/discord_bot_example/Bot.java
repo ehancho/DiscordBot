@@ -17,7 +17,7 @@ import org.jointheleague.modules.MomBot;
 import org.jointheleague.modules.NewPollMessageListener;
 import org.jointheleague.modules.FashionAdvisor;
 import org.jointheleague.modules.leetMessageListener;
-import org.jointheleague.modules.test;
+
 
 
 public class Bot  {
@@ -46,7 +46,7 @@ public class Bot  {
 		api.addMessageCreateListener(new ElmoMessageListener(channelName));
 		api.addMessageCreateListener(new FactMessageListener(channelName));
 		api.addMessageCreateListener(new CasinoGameListener(channelName));
-		api.addMessageCreateListener(new test(channelName));
+	
 		api.addMessageCreateListener(new leetMessageListener(channelName));
 		api.addMessageCreateListener(new ListMakerMessageListener(channelName));
 		api.addMessageCreateListener(new FlagMessageListener(channelName));
