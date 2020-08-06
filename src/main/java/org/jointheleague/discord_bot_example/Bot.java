@@ -4,6 +4,7 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.jointheleague.modules.CalculatorMessageListener;
 import org.jointheleague.modules.CasinoGameListener;
+import org.jointheleague.modules.Chopsticks;
 import org.jointheleague.modules.RandomNumber;
 import org.jointheleague.modules.Weather;
 import org.jointheleague.modules.DadJokes;
@@ -46,7 +47,7 @@ public class Bot  {
 		api.addMessageCreateListener(new ElmoMessageListener(channelName));
 		api.addMessageCreateListener(new FactMessageListener(channelName));
 		api.addMessageCreateListener(new CasinoGameListener(channelName));
-	
+		api.addMessageCreateListener(new Chopsticks(channelName));
 		api.addMessageCreateListener(new leetMessageListener(channelName));
 		api.addMessageCreateListener(new ListMakerMessageListener(channelName));
 		api.addMessageCreateListener(new FlagMessageListener(channelName));
