@@ -16,6 +16,8 @@ public class Chopsticks extends CustomMessageCreateListener {
 	String botHand1 = "I";
 	String botHand2 = "I";
 	Boolean playing = false;
+	Boolean botTurn = false;
+	Boolean eliminate = false;
 
 	public Chopsticks(String channelName) {
 		super(channelName);
@@ -26,14 +28,40 @@ public class Chopsticks extends CustomMessageCreateListener {
 		// TODO Auto-generated method stub
 		if (event.getMessageContent().equals(test_command)) {
 
-			event.getChannel().sendMessage("Use " + add_command + "to play(ex: " + add_command + " right left)");
+			event.getChannel().sendMessage("Use " + add_command + " to play(ex: " + add_command + " right left)");
 			HandlePlay(event);
 			playing = true;
 		} else if (event.getMessageContent().startsWith(add_command) && playing == true) {
-			event.getChannel().sendMessage("test");
 			String hand = event.getMessageContent().substring(11);
 			HandleAdd(hand, event);
+			botTurn = true;
 		}
+		if(botTurn == true) {
+			HandleBotPlay(event);
+			botTurn = false;
+		}if(hand1.length()==5||hand2.length()==5||botHand2.length()==5||botHand1.length()==5) {
+			
+		}
+	}
+
+	private void HandleBotPlay(MessageCreateEvent event) {
+		// TODO Auto-generated method stub
+		if(hand1.length()>=hand2.length()) {
+			if (botHand1.length()>=botHand2.length()) {
+				hand1 += botHand1;
+			}else {
+				hand1+= botHand2;
+			}
+		}else {
+			if(botHand1.length()>=botHand2.length()) {
+				hand2+=botHand1;
+			}else {
+				hand2+=botHand2;
+			}
+		}
+		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
+		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
+
 	}
 
 	private void HandleAdd(String hand, MessageCreateEvent event) {
