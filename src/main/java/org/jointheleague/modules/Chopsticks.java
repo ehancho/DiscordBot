@@ -11,6 +11,7 @@ public class Chopsticks extends CustomMessageCreateListener {
 
 	static final String test_command = "!PlaySticks";
 	static final String add_command = "!addSticks";
+	static final String split_command = "!splitHand";
 	String hand1 = "I";
 	String hand2 = "I";
 	String botHand1 = "I";
@@ -35,12 +36,54 @@ public class Chopsticks extends CustomMessageCreateListener {
 			String hand = event.getMessageContent().substring(11);
 			HandleAdd(hand, event);
 			botTurn = true;
+		}else if (event.getMessageContent().startsWith(split_command) && playing == true) {
+			String ouch = event.getMessageContent().substring(11);
+			HandleSplit(ouch, event);
 		}
 		if(botTurn == true) {
 			HandleBotPlay(event);
 			botTurn = false;
-		}if(hand1.length()==5||hand2.length()==5||botHand2.length()==5||botHand1.length()==5) {
+		}
+		if(hand1.length()+hand2.length()==0&&playing==true) {
+			event.getChannel().sendMessage("Bot Wins");
+			playing = false;
+		}
+		if(botHand1.length()+botHand2.length()==0 &&playing==true) {
+			event.getChannel().sendMessage("Player Wins");
+			playing = false;
+		}
+		if(playing == false) {
+			hand1 = "I";
+			hand2 = "I";
+			botHand1 = "I";
+			botHand2 = "I";
 			
+		}
+	
+	}
+
+	private void HandleSplit(String str, MessageCreateEvent event) {
+		// TODO Auto-generated method stub
+		String[] move = str.split(" ");
+		int num = Integer.parseInt(move[0]);
+		if(move[1]=="left") {
+			if(hand2.length() >= num && num+hand1.length() < 5) {
+				String temp = "";
+				for (int i = 0; i < num; i++) {
+					temp+="I";
+				}
+				hand1 += temp;
+				String removal = "";
+				int number = hand2.length()-num;
+				for (int i = 0; i < number; i++) {
+					removal+="I";
+				}
+				hand2 = removal;
+			}
+		}else if(move[1]=="right") {
+			
+		}else {
+			event.getChannel().sendMessage("invalid message");
 		}
 	}
 
@@ -58,6 +101,18 @@ public class Chopsticks extends CustomMessageCreateListener {
 			}else {
 				hand2+=botHand2;
 			}
+		}
+		if(hand1.length()>=5) {
+			hand1 = "";
+		}
+		if(hand2.length()>=5) {
+			hand2 = "";
+		}
+		if(botHand1.length()>=5) {
+			botHand1 = "";
+		}
+		if(botHand2.length()>=5) {
+			botHand2 = "";
 		}
 		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
 		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
@@ -84,6 +139,18 @@ public class Chopsticks extends CustomMessageCreateListener {
 			}
 		} else {
 			event.getChannel().sendMessage("invalid message");
+		}
+		if(hand1.length()>=5) {
+			hand1 = "";
+		}
+		if(hand2.length()>=5) {
+			hand2 = "";
+		}
+		if(botHand1.length()>=5) {
+			botHand1 = "";
+		}
+		if(botHand2.length()>=5) {
+			botHand2 = "";
 		}
 		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
 		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
