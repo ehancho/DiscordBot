@@ -29,7 +29,7 @@ public class Chopsticks extends CustomMessageCreateListener {
 	public void handle(MessageCreateEvent event) throws APIException {
 		// TODO Auto-generated method stub
 		if (event.getMessageContent().startsWith(test_command)) {
-			String level = event.getMessageContent().substring(11);
+			String level = event.getMessageContent().substring(12);
 			event.getChannel().sendMessage("Use " + add_command + " to play(ex: " + add_command + " right left)");
 			HandlePlay(level, event);
 			playing = true;
@@ -43,11 +43,12 @@ public class Chopsticks extends CustomMessageCreateListener {
 			botTurn = true;
 		}
 		if (botTurn == true) {
-			if (easy = true) {
-				HandleBotPlayEasy(event);
-			} else {
+			//if (easy = false) {
 				HandleBotPlayHard(event);
-			}
+				
+			//} else {
+				//HandleBotPlayEasy(event);
+			//}
 			botTurn = false;
 		}
 		if (hand1.length() + hand2.length() == 0 && playing == true) {
@@ -75,24 +76,30 @@ public class Chopsticks extends CustomMessageCreateListener {
 	// III I
 	private void HandleBotPlayHard(MessageCreateEvent event) {
 		// TODO Auto-generated method stub
-		if(botHand1.length()+hand1.length()>=5) {
-			
-		}
-		
-		if (botHand1.equals("II") && botHand2.equals("I")) {
+		event.getChannel().sendMessage("HARD MODE ACTIVATED");
+
+		if (botHand1.length()==2 && botHand2.length()==1) {
 			botHand1 = "I";
 			botHand2 = "II";
-		}else if(botHand1.equals("I") && botHand2.equals("II")) {
+		} else if (botHand1.equals("I") && botHand2.equals("II")) {
 			botHand1 = "II";
 			botHand2 = "I";
-			
-		}if(botHand1.equals(botHand2)) {
-			if(hand1.length()>=hand2.length()) {
-				hand1+=botHand1;
-				
-			}else if(hand2.length()>=hand1.length()) {
-				hand2+=botHand1;
-				
+
+		} else if (botHand1.length() + hand1.length() >= 5) {
+			hand1 += botHand1;
+		} else if (botHand2.length() + hand1.length() >= 5) {
+			hand1 += botHand2;
+		} else if (botHand1.length() + hand2.length() >= 5) {
+			hand2 += botHand1;
+		} else if (botHand2.length() + hand2.length() >= 5) {
+			hand2 += botHand2;
+		} else if (botHand1.equals(botHand2)) {
+			if (hand1.length() >= hand2.length()) {
+				hand1 += botHand1;
+
+			} else if (hand2.length() >= hand1.length()) {
+				hand2 += botHand1;
+
 			}
 		}
 		if (hand1.length() >= 5) {
@@ -124,10 +131,7 @@ public class Chopsticks extends CustomMessageCreateListener {
 				}
 				hand2 += temp;
 				hand1 = hand1.substring(0, hand1.length() - temp.length());
-				/*
-				 * int number = hand1.length() - temp.length(); for (int i = 0; i < number; i++)
-				 * { remove += "I"; } hand1 = remove;
-				 */
+
 			}
 		} else {
 			event.getChannel().sendMessage("invalid message");
@@ -140,6 +144,7 @@ public class Chopsticks extends CustomMessageCreateListener {
 
 	private void HandleBotPlayEasy(MessageCreateEvent event) {
 		// TODO Auto-generated method stub
+		event.getChannel().sendMessage("easy");
 		if (hand1.length() >= hand2.length()) {
 			if (botHand1.length() >= botHand2.length()) {
 				hand1 += botHand1;
@@ -209,9 +214,15 @@ public class Chopsticks extends CustomMessageCreateListener {
 
 	private void HandlePlay(String level, MessageCreateEvent event) {
 		// TODO Auto-generated method stub
-		if (level.equals("easy")) {
-			easy = true;
+		hand1 = "I";
+		hand2 = "I";
+		botHand1 = "I";
+		botHand2 = "I";
+		if (level.equals("hard")) {
+			event.getChannel().sendMessage("work");
+			easy = false;
 		}
+
 		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
 		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
 
