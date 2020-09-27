@@ -43,12 +43,13 @@ public class Chopsticks extends CustomMessageCreateListener {
 			botTurn = true;
 		}
 		if (botTurn == true) {
-			//if (easy = false) {
+			if (easy == false) {
 				HandleBotPlayHard(event);
-				
-			//} else {
-				//HandleBotPlayEasy(event);
-			//}
+
+			} else if (easy == true) {
+
+				HandleBotPlayEasy(event);
+			}
 			botTurn = false;
 		}
 		if (hand1.length() + hand2.length() == 0 && playing == true) {
@@ -78,14 +79,27 @@ public class Chopsticks extends CustomMessageCreateListener {
 		// TODO Auto-generated method stub
 		event.getChannel().sendMessage("HARD MODE ACTIVATED");
 
-		if (botHand1.length()==2 && botHand2.length()==1) {
+		if (botHand1.length() == 2 && botHand2.length() == 1) {
 			botHand1 = "I";
 			botHand2 = "II";
 		} else if (botHand1.equals("I") && botHand2.equals("II")) {
 			botHand1 = "II";
 			botHand2 = "I";
 
-		} else if (botHand1.length() + hand1.length() >= 5) {
+		} else if (botHand1.length() == botHand2.length()) {
+			if (hand1.length() >= hand2.length()) {
+				hand1 += botHand2;
+			} else {
+				hand2 += botHand2;
+			}
+		} else if(botHand1.length()==0){
+			if(botHand2.length()==4) {
+				botHand2 = "II";
+				botHand1 = "II";
+			}
+		}
+		
+		else if (botHand1.length() + hand1.length() >= 5) {
 			hand1 += botHand1;
 		} else if (botHand2.length() + hand1.length() >= 5) {
 			hand1 += botHand2;
@@ -114,6 +128,8 @@ public class Chopsticks extends CustomMessageCreateListener {
 		if (botHand2.length() >= 5) {
 			botHand2 = "";
 		}
+		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
+		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
 	}
 
 	private void HandleSplit(String str, MessageCreateEvent event) {
@@ -131,6 +147,17 @@ public class Chopsticks extends CustomMessageCreateListener {
 				}
 				hand2 += temp;
 				hand1 = hand1.substring(0, hand1.length() - temp.length());
+
+			}
+		} else if (move[0].equals("left")) {
+			if (hand2.length() > num) {
+
+				String temp = "";
+				for (int i = 0; i < num; i++) {
+					temp += "I";
+				}
+				hand1 += temp;
+				hand2 = hand1.substring(0, hand1.length() - temp.length());
 
 			}
 		} else {
@@ -221,6 +248,8 @@ public class Chopsticks extends CustomMessageCreateListener {
 		if (level.equals("hard")) {
 			event.getChannel().sendMessage("work");
 			easy = false;
+		} else if (level.equals("easy")) {
+			easy = true;
 		}
 
 		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
