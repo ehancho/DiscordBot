@@ -9,9 +9,9 @@ import net.aksingh.owmjapis.api.APIException;
 
 public class Chopsticks extends CustomMessageCreateListener {
 
-	static final String test_command = "!PlaySticks";
-	static final String add_command = "!addSticks";
-	static final String split_command = "!splitHand";
+	static final String test_command = "!PS";
+	static final String add_command = "!as";
+	static final String split_command = "!sh";
 	String hand1 = "I";
 	String hand2 = "I";
 	String botHand1 = "I";
@@ -29,16 +29,16 @@ public class Chopsticks extends CustomMessageCreateListener {
 	public void handle(MessageCreateEvent event) throws APIException {
 		// TODO Auto-generated method stub
 		if (event.getMessageContent().startsWith(test_command)) {
-			String level = event.getMessageContent().substring(12);
+			String level = event.getMessageContent().substring(4);
 			event.getChannel().sendMessage("Use " + add_command + " to play(ex: " + add_command + " right left)");
 			HandlePlay(level, event);
 			playing = true;
 		} else if (event.getMessageContent().startsWith(add_command) && playing == true) {
-			String hand = event.getMessageContent().substring(11);
+			String hand = event.getMessageContent().substring(4);
 			HandleAdd(hand, event);
 			botTurn = true;
 		} else if (event.getMessageContent().startsWith(split_command) && playing == true) {
-			String ouch = event.getMessageContent().substring(11);
+			String ouch = event.getMessageContent().substring(4);
 			HandleSplit(ouch, event);
 			botTurn = true;
 		}
@@ -92,21 +92,19 @@ public class Chopsticks extends CustomMessageCreateListener {
 			} else {
 				hand2 += botHand2;
 			}
-		} else if(botHand1.length()==0){
-			if(botHand2.length()==4) {
-				botHand2 = "II";
-				botHand1 = "II";
-			}
-		}
-		
-		else if (botHand1.length() + hand1.length() >= 5) {
+
+		} else if (botHand1.length() + hand1.length() >= 5) {
 			hand1 += botHand1;
+
 		} else if (botHand2.length() + hand1.length() >= 5) {
 			hand1 += botHand2;
+
 		} else if (botHand1.length() + hand2.length() >= 5) {
 			hand2 += botHand1;
+
 		} else if (botHand2.length() + hand2.length() >= 5) {
 			hand2 += botHand2;
+
 		} else if (botHand1.equals(botHand2)) {
 			if (hand1.length() >= hand2.length()) {
 				hand1 += botHand1;
@@ -114,6 +112,40 @@ public class Chopsticks extends CustomMessageCreateListener {
 			} else if (hand2.length() >= hand1.length()) {
 				hand2 += botHand1;
 
+			}
+		} else if (botHand1.length() == 1 && botHand2.length() == 3) {
+			botHand1 += "II";
+			botHand2 = "I";
+
+		} else if (botHand2.length() == 1 && botHand1.length() == 3) {
+			botHand2 += "II";
+			botHand1 = "I";
+
+		} else if (botHand1.length() == 0 || botHand2.length() == 0) {
+			if (botHand1.length() + botHand1.length() == 2) {
+				botHand1 = "I";
+				botHand2 = "I";
+			} else if (botHand1.length() + botHand2.length() == 3) {
+				botHand2 = "II";
+				botHand1 = "I";
+			} else if (botHand1.length() + botHand2.length() == 4) {
+				botHand1 = "II";
+				botHand2 = "II";
+			}
+		} else {
+			if (hand1.length() >= hand2.length()) {
+
+				if (botHand1.length() >= botHand2.length()) {
+					hand1 += botHand1;
+				} else {
+					hand1 += botHand2;
+				}
+			} else {
+				if (botHand1.length() >= botHand2.length()) {
+					hand2 += botHand1;
+				} else {
+					hand2 += botHand2;
+				}
 			}
 		}
 		if (hand1.length() >= 5) {
@@ -246,7 +278,7 @@ public class Chopsticks extends CustomMessageCreateListener {
 		botHand1 = "I";
 		botHand2 = "I";
 		if (level.equals("hard")) {
-			event.getChannel().sendMessage("work");
+
 			easy = false;
 		} else if (level.equals("easy")) {
 			easy = true;
