@@ -36,11 +36,11 @@ public class Chopsticks extends CustomMessageCreateListener {
 		} else if (event.getMessageContent().startsWith(add_command) && playing == true) {
 			String hand = event.getMessageContent().substring(4);
 			HandleAdd(hand, event);
-			botTurn = true;
+			//botTurn = true;
 		} else if (event.getMessageContent().startsWith(split_command) && playing == true) {
 			String ouch = event.getMessageContent().substring(4);
 			HandleSplit(ouch, event);
-			botTurn = true;
+			//botTurn = true;
 		}
 		if (botTurn == true) {
 			if (easy == false) {
@@ -148,31 +148,18 @@ public class Chopsticks extends CustomMessageCreateListener {
 				}
 			}
 		}
-		if (hand1.length() >= 5) {
-			hand1 = "";
-		}
-		if (hand2.length() >= 5) {
-			hand2 = "";
-		}
-		if (botHand1.length() >= 5) {
-			botHand1 = "";
-		}
-		if (botHand2.length() >= 5) {
-			botHand2 = "";
-		}
-		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
-		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
+		showhands(event);
 	}
 
 	private void HandleSplit(String str, MessageCreateEvent event) {
 		// TODO Auto-generated method stub
 		String[] move = str.split(" ");
-		event.getChannel().sendMessage(move[0]);
+	
 		int num = Integer.parseInt(move[1]);
 		if (move[0].equals("right")) {
-			event.getChannel().sendMessage("test2");
+			
 			if (hand1.length() > num) {
-
+				
 				String temp = "";
 				for (int i = 0; i < num; i++) {
 					temp += "I";
@@ -180,24 +167,29 @@ public class Chopsticks extends CustomMessageCreateListener {
 				hand2 += temp;
 				hand1 = hand1.substring(0, hand1.length() - temp.length());
 
+			}else {
+				event.getChannel().sendMessage("invalid message");
+				botTurn = false;
 			}
 		} else if (move[0].equals("left")) {
 			if (hand2.length() > num) {
 
 				String temp = "";
-				for (int i = 0; i < num; i++) {
+				for (int i = 0; i < num-1; i++) {
 					temp += "I";
 				}
 				hand1 += temp;
 				hand2 = hand1.substring(0, hand1.length() - temp.length());
 
+			}else {
+				event.getChannel().sendMessage("invalid message");
+				botTurn = false;
 			}
 		} else {
 			event.getChannel().sendMessage("invalid message");
-
+			botTurn = false;
 		}
-		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
-		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
+		showhands(event);
 
 	}
 
@@ -217,20 +209,7 @@ public class Chopsticks extends CustomMessageCreateListener {
 				hand2 += botHand2;
 			}
 		}
-		if (hand1.length() >= 5) {
-			hand1 = "";
-		}
-		if (hand2.length() >= 5) {
-			hand2 = "";
-		}
-		if (botHand1.length() >= 5) {
-			botHand1 = "";
-		}
-		if (botHand2.length() >= 5) {
-			botHand2 = "";
-		}
-		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
-		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
+		showhands(event);
 
 	}
 
@@ -255,20 +234,8 @@ public class Chopsticks extends CustomMessageCreateListener {
 		} else {
 			event.getChannel().sendMessage("invalid message");
 		}
-		if (hand1.length() >= 5) {
-			hand1 = "";
-		}
-		if (hand2.length() >= 5) {
-			hand2 = "";
-		}
-		if (botHand1.length() >= 5) {
-			botHand1 = "";
-		}
-		if (botHand2.length() >= 5) {
-			botHand2 = "";
-		}
-		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
-		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
+		showhands(event);
+		
 	}
 
 	private void HandlePlay(String level, MessageCreateEvent event) {
@@ -288,5 +255,22 @@ public class Chopsticks extends CustomMessageCreateListener {
 		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
 
 	}
+	public void showhands(MessageCreateEvent event) {
+		if (hand1.length() >= 5) {
+			hand1 = "";
+		}
+		if (hand2.length() >= 5) {
+			hand2 = "";
+		}
+		if (botHand1.length() >= 5) {
+			botHand1 = "";
+		}
+		if (botHand2.length() >= 5) {
+			botHand2 = "";
+		}
+		event.getChannel().sendMessage("Bot:   " + botHand1 + "     " + botHand2);
+		event.getChannel().sendMessage("You:   " + hand1 + "     " + hand2);
+	}
+	}
 
-}
+

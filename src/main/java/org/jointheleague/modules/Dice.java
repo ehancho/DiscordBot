@@ -30,12 +30,12 @@ public class Dice extends CustomMessageCreateListener {
 		// TODO Auto-generated method stub
 		String[] test = variables.split(" ");
 		int numDice = Integer.parseInt(test[0]);
-		int digits = test[1].length()-6;
-		int temp = Integer.parseInt(test[1].substring(0,digits));
+		String[] digits = test[1].split("-");
+		int sides = Integer.parseInt(digits[0]); 
 		Random ran = new Random();
 		for (int i = 0; i < numDice; i++) {
-			int values = ran.nextInt(temp);
-			event.getChannel().sendMessage("Dice "+(i+1)+" "+values+1);
+			int values = ran.nextInt(sides);
+			event.getChannel().sendMessage("Dice "+(i+1)+" "+(values+1));
 			
 		}
 		

@@ -8,6 +8,7 @@ import org.jointheleague.modules.Chopsticks;
 import org.jointheleague.modules.RandomNumber;
 import org.jointheleague.modules.Weather;
 import org.jointheleague.modules.DadJokes;
+import org.jointheleague.modules.Dice;
 import org.jointheleague.modules.ClockMessageListener;
 import org.jointheleague.modules.ComicMessageListener;
 import org.jointheleague.modules.ElmoMessageListener;
@@ -41,6 +42,7 @@ public class Bot  {
 		api.addMessageCreateListener(new MomBot(channelName));
 		api.addMessageCreateListener(new RandomNumber(channelName));
 		api.addMessageCreateListener(new DadJokes(channelName));
+		api.addMessageCreateListener(new Dice(channelName));
 		api.addMessageCreateListener(new ClockMessageListener(channelName));
 		api.addMessageCreateListener(new CalculatorMessageListener(channelName));
 		api.addMessageCreateListener(new ComicMessageListener(channelName));
