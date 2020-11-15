@@ -33,7 +33,7 @@ public class ListMakerMessageListener extends CustomMessageCreateListener {
 		} else if (event.getMessageContent().contains(Remove_Command)) {
 			String num = event.getMessageContent().substring(8);
 			int number = Integer.parseInt(num);
-			event.getChannel().sendMessage("test1111");
+			
 			HandleRemove(number, event);
 
 		} else if (event.getMessageContent().contains(Add_Command)) {

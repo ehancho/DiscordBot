@@ -72,9 +72,9 @@ public class Chopsticks extends CustomMessageCreateListener {
 
 	}
 
-	// II II
+	// I  II
 	//
-	// III I
+	// II II
 	private void HandleBotPlayHard(MessageCreateEvent event) {
 		// TODO Auto-generated method stub
 		event.getChannel().sendMessage("HARD MODE ACTIVATED");
